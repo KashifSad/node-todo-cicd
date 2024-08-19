@@ -15,13 +15,26 @@ pipeline {
                 cleanWs()
             }
         }
-        stage("Checkout SCM") {
-            steps{
-                git url: "https://github.com/KashifSad/node-todo-cicd.git", branch: "master"
-                echo 'bhaiyya code clone ho gaya kashiff'
+        stage('Checkout SCM') {
+            steps {
+                git url: 'https://github.com/KashifSad/node-todo-cicd.git', branch: 'master'
+                echo 'Code has been cloned successfully.'
             }
-        
+        }
+        stage('Build') {
+            steps {
+                sh "docker build -t kashif ."
+            }
+        // stage('Push to Docker Hub') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('', "${REGISTRY_CREDS}") {
+        //                 sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+        //             }
+        //             echo 'Image has been pushed to Docker Hub successfully.'
+        //         }
+        //     }
+        // }
     }
-
 }
 }
