@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app:72
+  name: my-deployment
 spec:
   selector:
     matchLabels:
-      app: flask-app:72
+      app: my-app
   template:
     metadata:
       labels:
-        app: flask-app:72
+        app: my-app
     spec:
       containers:
-      - name: flask-app:72
+      - name: my-container
         image: kashifsadiq/flask-app:72
         resources:
           limits:
