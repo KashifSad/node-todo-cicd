@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app:71
+  name: flask-app:72
 spec:
   selector:
     matchLabels:
-      app: flask-app:71
+      app: flask-app:72
   template:
     metadata:
       labels:
-        app: flask-app:71
+        app: flask-app:72
     spec:
       containers:
-      - name: flask-app:71
-        image: kashifsadiq/flask-app:71
+      - name: flask-app:72
+        image: kashifsadiq/flask-app:72
         resources:
           limits:
             memory: "128Mi"
