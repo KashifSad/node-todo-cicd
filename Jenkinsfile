@@ -23,18 +23,19 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "docker build -t kashif ."
+                script {docker_image = docker.build "${IMAGE_NAME}"
+                }
             }
-        // stage('Push to Docker Hub') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry('', "${REGISTRY_CREDS}") {
-        //                 sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
-        //             }
-        //             echo 'Image has been pushed to Docker Hub successfully.'
-        //         }
-        //     }
-        // }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    docker.withRegistry('', "${REGISTRY_CREDS}") {
+                        docker_image.push("$BUILD_NUMBER")
+                        docker_image.push("latest")
+                    }
+                }
+            }
+        }
     }
-}
 }
