@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USERNAME = "kashifsadiq"
-        APP_NAME = "node-todo-cicd"
+        APP_NAME = "flask-app"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}/${APP_NAME}"
         REGISTRY_CREDS = "dockerhubcred"
@@ -34,6 +34,26 @@ pipeline {
                         docker_image.push("$BUILD_NUMBER")
                         docker_image.push("latest")
                     }
+                }
+            }
+        }
+
+        stage("delete docker image"){
+            steps{
+                script{
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker rmi ${IMAGE_NAME}:latest"
+                }
+            }
+        }
+        stage("Updating k8s manifest"){
+            steps{
+                script{
+                    sh """
+                    cat deployment.yml
+                    sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yml
+                    cat deployment.yml
+                """
                 }
             }
         }
