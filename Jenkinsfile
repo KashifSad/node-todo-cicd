@@ -57,5 +57,20 @@ pipeline {
                 }
             }
         }
+        stage("jenkins push changes into deployment.yml"){
+            steps{
+                script{
+                 sh """
+                    git config --global user.name "KashifSad"
+                    git config --global user.email "kashraza010@gmail.com"
+                    git add deployment.yml
+                    git commit -m "change the versionn"
+                    """
+                    withCredentials([gitUsernamePassword(credentialsId: 'githubcred', gitToolName: 'Default')]){ 
+                    sh "git push https://github.com/KashifSad/node-todo-cicd.git master"
+                    }
+                }
+            }
+        }
     }
 }
